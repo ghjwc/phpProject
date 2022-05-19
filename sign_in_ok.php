@@ -21,6 +21,7 @@ if($db_pw) {
     if($password == $db_pw['password']) {
         $_SESSION['no'] = $db_pw['no'];
         $_SESSION['email'] = $db_pw['email'];
+        $_SESSION['password'] = $db_pw['password'];
         // query에 대한 return 값이 있다면 session에 값을 저장한다.
         echo "
         <script>
@@ -32,7 +33,7 @@ if($db_pw) {
         echo "
         <script>
             alert('비밀번호가 틀립니다.')
-            history.back();
+            history.back()
         </script>
         ";
     }
