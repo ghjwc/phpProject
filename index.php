@@ -1,12 +1,7 @@
-<?php
+<?php 
 
-include("common.php");
-
-// print_r($_SESSION);
-// session을 확인할 때는 $_SESSION
-// session은 대개 사용자의 정보를 저장해서 필요한 곳에 불러와 사용한다.
-
-if($_SESSION) {
+include ("common.php");
+if ($_SESSION) {
     
 } else {
     echo "
@@ -14,7 +9,17 @@ if($_SESSION) {
         location.href='sign_in.php';
     </script>
     ";
+    
 }
+
+$sql = "select 
+            no,
+            title,
+            writer,
+            insertTime
+        from board";
+
+$result = $conn -> query($sql);
 
 ?>
 
@@ -27,22 +32,44 @@ if($_SESSION) {
     <title>Document</title>
 </head>
 <body>
-    <div style="background-color: black; padding:30px; color:white; text-align:center;">
-        header
-        <?php echo $_SESSION ['email'] . "님 환영합니다." ?>
-        <button onclick="myInfoUpdate()">정보수정</button>
-        <button onclick="logout()">로그아웃</button>
+    <div style=" padding:30px; color:black; text-align:center">
+        header        
+    </div>    
+    <div>
+        <table class="table table-secondary table-striped table-hover" 
+        style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                <tr>
+                    <td><?php echo $row['no'] ?></td>
+                    <td>
+                        <a href="content.php?no=<?php echo $row['no'] ?>">
+                        <?php echo $row['title'] ?>
+                        </a>                        
+                    </td>
+                    <td><?php echo $row['writer'] ?></td>
+                    <td><?php echo $row['insertTime'] ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
+   
 </body>
 </html>
-
 <script>
     function logout() {
         location.href="logout.php";
     }
-
     function myInfoUpdate() {
-        location.href = "my_info_update.php"
+        location.href="my_info_update.php";
     }
-
 </script>
